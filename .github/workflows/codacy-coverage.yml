@@ -40,6 +40,8 @@ jobs:
           ls -al $(pwd)
 
       - name: Download Codacy Coverage Reporter
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           curl -L https://coverage.codacy.com/get.sh -o get_codacy_reporter.sh
           bash get_codacy_reporter.sh
