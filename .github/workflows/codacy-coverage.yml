@@ -25,12 +25,9 @@ jobs:
         run: |
           pytest --cov=. --cov-report=xml
 
-      - name: Download Codacy Coverage Reporter
-        run: |
-          curl -Ls https://coverage.codacy.com/get.sh | bash
-
       - name: Run Codacy Coverage Reporter with coverage report
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
+          curl -Ls https://coverage.codacy.com/get.sh | bash
           ./codacy-coverage-reporter report -l Python -r coverage.xml
