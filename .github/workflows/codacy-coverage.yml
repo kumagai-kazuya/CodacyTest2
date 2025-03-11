@@ -15,19 +15,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: 3.8
 
       - name: Install dependencies
         run: |
-          pip install coverage pytest pytest-cov
+          pip install pytest pytest-cov
+
+      - name: Set PYTHONPATH
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
 
       - name: Run tests and generate coverage report
         run: |
-          pytest --cov=. --cov-report=xml
+          pytest --cov=main tests/ --cov-report=xml
 
-      - name: Run Codacy Coverage Reporter with coverage report
+      - name: Verify coverage report exists
+        run: |
+          ls -la coverage.xml
+
+      - name: Upload coverage report to Codacy
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           curl -Ls https://coverage.codacy.com/get.sh | bash
-          bash codacy-coverage-reporter report -l Python -r coverage.xml
+          bash codacy-coverage-reporter report -r coverage.xml
