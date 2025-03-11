@@ -39,5 +39,5 @@ jobs:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
           curl -Ls https://coverage.codacy.com/get.sh | bash
-          bash codacy-coverage-reporter report -r $(pwd)/coverage.xml --debug
+          bash codacy-coverage-reporter report --debug -r $(pwd)/coverage.xml
           
