@@ -3,8 +3,9 @@ name: Codacy Coverage
 on:
   push:
     branches:
-      - main
-
+      #- main
+      - codacytest
+      
 jobs:
   coverage:
     runs-on: ubuntu-latest
