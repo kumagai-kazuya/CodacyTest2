@@ -34,10 +34,19 @@ jobs:
         run: |
           ls -la coverage.xml
 
-      - name: Upload coverage report to Codacy
+      - name: Debug file structure
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -al $(pwd)
+
+      - name: Download Codacy Coverage Reporter
+        run: |
+          curl -L https://coverage.codacy.com/get.sh -o get_codacy_reporter.sh
+          bash get_codacy_reporter.sh
+
+      - name: Run Codacy Coverage Reporter
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
         run: |
-          curl -L https://coverage.codacy.com/get.sh | bash
-          bash codacy-coverage-reporter report -r $(pwd)/coverage.xml
-          
+          REPORT_PATH=$(pwd)/coverage.xml
+          $HOME/.cache/codacy/coverage-reporter/$(cat $HOME/.cache/codacy/coverage-reporter/codacy-coverage-reporter-version)/codacy-coverage-reporter report -r ${REPORT_PATH}
