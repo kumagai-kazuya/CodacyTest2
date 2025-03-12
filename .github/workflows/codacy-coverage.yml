@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-cov
+          pip install pytest pytest-cov codacy-coverage
 
       - name: Set PYTHONPATH
         run: |
@@ -39,16 +39,8 @@ jobs:
           echo "Current directory: $(pwd)"
           ls -al $(pwd)
 
-      - name: Download Codacy Coverage Reporter
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: |
-          curl -L https://coverage.codacy.com/get.sh -o get_codacy_reporter.sh
-          bash get_codacy_reporter.sh
-
-      - name: Run Codacy Coverage Reporter
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: |
-          REPORT_PATH=$(pwd)/coverage.xml
-          $HOME/.cache/codacy/coverage-reporter/$(cat $HOME/.cache/codacy/coverage-reporter/codacy-coverage-reporter-version)/codacy-coverage-reporter report -r ${REPORT_PATH}
+      - name: Upload coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage.xml
