@@ -39,7 +39,7 @@ jobs:
           cat coverage.xml
 
       - name: Upload coverage to Codacy
-        uses: codacy/codacy-coverage-reporter@v1
+        uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: $(pwd)/coverage.xml
