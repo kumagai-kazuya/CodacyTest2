@@ -30,16 +30,16 @@ jobs:
         run: |
           pytest --cov=main tests/ --cov-report=xml
 
-      - name: Verify coverage report exists
-        run: |
-          ls -la coverage.xml
+      # - name: Verify coverage report exists
+      #   run: |
+      #     ls -la coverage.xml
 
-      - name: type coverage.xml
-        run: |
-          cat coverage.xml
+      # - name: type coverage.xml
+      #   run: |
+      #     cat coverage.xml
 
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: $(pwd)/coverage.xml
+          coverage-reports: coverage.xml
